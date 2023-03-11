@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, 
+	initial-scale=1.0"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <main class="income__bg">
+      <div class="container">
+        <h1>Income Tracker</h1>
+
+        <div class="total__salary__bg">
+          <label for="total-salary">Total Salary:</label>
+          <input type="number" id="total-salary" name="total-salary" />
+          <button type="button" id="set-total-salary-button">Set</button>
+          <p id="total-salary-display"></p>
+        </div>
+
+        <form>
+          <div class="expense">
+            <label for="expense-name">Expense Name:</label>
+            <input type="text" id="expense-name" name="expense-name" />
+            <label for="expense-amount">Expense Amount:</label>
+            <input type="number" id="expense-amount" name="expense-amount" />
+            <button type="button" onclick="addExpense()">Add Expense</button>
+          </div>
+          
+        </form>
+        <h2>Expenses:</h2>
+        <ul id="expense-list"></ul>
+        <p>Total Expenses: <span id="total-expenses">$0</span></p>
+        <p>Remaining Balance: <span id="remaining-balance">$0</span></p>
+      </div>
+    </main>
+
+    <script defer src="main.js"></script>
+  </body>
+</html>

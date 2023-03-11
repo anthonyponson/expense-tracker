@@ -1,0 +1,63 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body{
+  height: 100vh;
+}
+
+li {
+  list-style: none;
+}
+
+h1 {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+label {
+  font-size: 1.2rem;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+input {
+    margin: 1rem auto;
+    padding: 1rem;
+}
+button{
+    max-width: 400px;
+    padding: 0.5rem;
+
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 20px;
+  
+}
+
+.total__salary__bg{
+  display: flex;
+  flex-direction: column;
+}
+
+.expense{
+  display: flex;
+  flex-direction: column;
+}
+
+#total-salary-display{
+  text-align: center;
+  font-size: 1.3rem;
+
+}

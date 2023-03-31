@@ -1,98 +1,86 @@
-// Get DOM elements
-const totalSalaryInput = document.querySelector('.total-salary')
-const setTotalSalaryButton = document.querySelector('.set-total-salary-button')
-const totalSalaryDisplay = document.querySelector('.total-salary-display')
-const expenseNameInput = document.querySelector('.expense-name')
-const expenseAmountInput = document.querySelector('.expense-amount')
-const addExpenseButton = document.querySelector('.add-expense')
-const expenseList = document.querySelector('.expense-list')
-const totalExpensesDisplay = document.querySelector('.total-expenses')
-const remainingBalanceDisplay = document.querySelector('.remaining-balance')
+// Get HTML elements
+const totalSalaryInput = document.querySelector(".total-salary");
+const setTotalSalaryButton = document.querySelector(".set-total-salary-button");
+const totalSalaryDisplay = document.querySelector(".total-salary-display");
+const expenseForm = document.querySelector("form");
+const expenseNameInput = document.querySelector(".expense-name");
+const expenseAmountInput = document.querySelector(".expense-amount");
+const expenseList = document.querySelector(".expense-list");
+const totalExpensesDisplay = document.querySelector(".total-expenses");
+const remainingBalanceDisplay = document.querySelector(".remaining-balance");
 
-// Check if there is data in local storage
-let expenses = JSON.parse(localStorage.getItem('expenses')) || []
-let totalSalary = JSON.parse(localStorage.getItem('totalSalary')) || 0
+// Initialize total salary and expenses from local storage
+let totalSalary = localStorage.getItem("totalSalary") || 0;
+let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
-// Display total salary and expenses on page load
-totalSalaryDisplay.textContent = `$${totalSalary}`
-displayExpenses()
-
-// Add event listeners
-setTotalSalaryButton.addEventListener('click', setTotalSalary)
-addExpenseButton.addEventListener('click', addExpense)
+// Display total salary
+totalSalaryDisplay.textContent = `Total Salary: $${totalSalary}`;
 
 // Set total salary
-function setTotalSalary() {
-  totalSalary = totalSalaryInput.value
-  totalSalaryDisplay.textContent = `$${totalSalary}`
-  localStorage.setItem('totalSalary', JSON.stringify(totalSalary))
-  updateRemainingBalance()
-}
+setTotalSalaryButton.addEventListener("click", () => {
+  totalSalary = parseInt(totalSalaryInput.value);
+  totalSalaryDisplay.textContent = `Total Salary: $${totalSalary}`;
+  localStorage.setItem("totalSalary", totalSalary);
+  updateBalance();
+});
 
 // Add expense
-function addExpense(event) {
-  event.preventDefault()
+expenseForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const expenseName = expenseNameInput.value;
+  const expenseAmount = parseFloat(expenseAmountInput.value);
 
-  // Get expense name and amount
-  const expenseName = expenseNameInput.value
-  const expenseAmount = expenseAmountInput.value
-
-  // Validate expense amount
-  if (expenseAmount === '' || isNaN(expenseAmount)) {
-    alert('Please enter a valid expense amount.')
-    return
+  if (!expenseName || !expenseAmount) {
+    alert("Please enter both an expense name and an amount.");
+    return;
   }
 
-  // Create expense object and add to expenses array
-  const expense = { name: expenseName, amount: expenseAmount }
-  expenses.push(expense)
-  localStorage.setItem('expenses', JSON.stringify(expenses))
+  expenses.push({ name: expenseName, amount: expenseAmount });
+  localStorage.setItem("expenses", JSON.stringify(expenses));
+  expenseNameInput.value = "";
+  expenseAmountInput.value = "";
+  renderExpenses();
+  updateBalance();
+});
 
-  // Clear input fields
-  expenseNameInput.value = ''
-  expenseAmountInput.value = ''
-
-  // Display updated expenses and remaining balance
-  displayExpenses()
-  updateRemainingBalance()
-}
-
-// Display expenses
-function displayExpenses() {
-  // Clear expense list
-  expenseList.innerHTML = ''
-
-  // Calculate total expenses and display each expense
-  let totalExpenses = 0
-  expenses.forEach((expense, index) => {
-    const li = document.createElement('li')
-    li.innerHTML = `${expense.name}: $${expense.amount} <button class="delete-expense" data-delete-button=${index}>Delete</button>`
-    expenseList.appendChild(li)
-    totalExpenses += parseInt(expense.amount)
-    const expensesTitle = document.createElement('h3')
-    expenseList.appendChild(expensesTitle)
-    expensesTitle.innerText = 'History'
-  })
-
-  // Display total expenses
-  totalExpensesDisplay.textContent = `$${totalExpenses}`
-}
-
-// Update remaining balance
-function updateRemainingBalance() {
-  let remainingBalance =
-    totalSalary - parseInt(totalExpensesDisplay.textContent.slice(1))
-  remainingBalanceDisplay.textContent = `$${remainingBalance}`
-}
-
-// Delete expense
-expenseList.addEventListener('click', deleteExpense)
-function deleteExpense(event) {
-  if (event.target.classList.contains('delete-expense')) {
-    const expenseIndex = event.target.dataset.deleteButton
-    expenses.splice(expenseIndex, 1)
-    localStorage.setItem('expenses', JSON.stringify(expenses))
-    displayExpenses()
-    updateRemainingBalance()
+// Render expenses
+function renderExpenses() {
+  expenseList.innerHTML = "";
+  const expenseTtilte = document.createElement("h3");
+  expenseTtilte.innerText = 'History'
+  expenseList.appendChild(expenseTtilte)
+  for (const [index, expense] of expenses.entries()) {
+    const expenseItem = document.createElement("li");
+    expenseItem.innerText = `${expense.name}: $${expense.amount}`;
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add('expense-delete');
+    deleteButton.innerText = "Delete";
+    deleteButton.addEventListener("click", () => {
+      expenses.splice(index, 1);
+      localStorage.setItem("expenses", JSON.stringify(expenses));
+      renderExpenses();
+      updateBalance();
+    });
+    expenseItem.appendChild(deleteButton);
+    expenseList.appendChild(expenseItem);
   }
 }
+
+// Update balance
+function updateBalance() {
+  const totalExpenses = expenses.reduce((total, expense) => total + expense.amount, 0);
+  const remainingBalance = totalSalary - totalExpenses;
+  totalExpensesDisplay.textContent = `Total Expenses: $${totalExpenses}`;
+  remainingBalanceDisplay.textContent = `Remaining Balance: $${remainingBalance}`;
+  localStorage.setItem("remainingBalance", remainingBalance);
+}
+
+// Initialize balance
+const remainingBalance = localStorage.getItem("remainingBalance") || 0;
+remainingBalanceDisplay.textContent = `Remaining Balance: $${remainingBalance}`;
+
+// Render initial expenses
+renderExpenses();
+
+// Update balance on load
+updateBalance();

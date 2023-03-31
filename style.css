@@ -61,16 +61,16 @@ form {
 
 .left-side {
   padding: 2rem 5rem;
-  flex: 33.33%;
+  flex: 1;
   padding-top: 2.5rem;
   box-shadow: 2px 8px 19px hsla(0, 0%, 0%, 0.7);
   border-radius: 20px;
 }
 
 .right-side {
-  padding: 2rem 5rem;
+  padding: 2rem 2rem;
   display: flex;
-  flex: 33.33%;
+  flex: 2;
   flex-direction: column;
   padding-top: 2.5rem;
 }
@@ -106,4 +106,13 @@ form {
   color: hsl(0, 0%, 100%);
   background-color: hsl(249, 100%, 50%);
   border-radius: 3rem;
+}
+
+.expense-delete{
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: hsl(249, 100%, 50%);
+  color: hsl(0, 0%, 100%);
+  border-radius: 20px;
 }

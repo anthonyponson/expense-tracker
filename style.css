@@ -5,9 +5,11 @@
   padding: 0;
   margin: 0;
 }
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&display=swap');
 
-body{
+body {
   height: 100vh;
+  font-family: 'Rubik', sans-serif;
 }
 
 li {
@@ -16,7 +18,7 @@ li {
 
 h1 {
   text-align: center;
-  padding: 0.5rem 0;
+  padding: 2rem 1rem 3rem;
 }
 
 label {
@@ -26,52 +28,82 @@ label {
 }
 
 input {
-    margin: 0.7rem auto;
-    padding: 0.8rem;
-    border: none;
-    border-radius: 5px;
+  margin: 0.7rem auto;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 5px;
 }
-button{
-    max-width: 400px;
-    padding: 0.8rem 0;
-    margin: 0.5rem;
-
+button {
+  max-width: 400px;
+  padding: 0.8rem 0;
+  margin: 0.5rem;
 }
 
-form{
+form {
   padding-top: 20px;
 }
 .container {
-  max-width: 900px;
   margin: 10px auto;
   padding: 20px 0;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  background-color: #f2f2f2;
+  background-color: hsl(0, 0%, 95%);
   border-radius: 20px;
-  
 }
 
-.total__salary__bg{
+.row {
+  display: flex;
+  gap: 10rem;
+  justify-content: center;
+}
+
+.left-side {
+  padding: 2rem 5rem;
+  flex: 33.33%;
+  padding-top: 2.5rem;
+  box-shadow: 2px 8px 19px hsla(0, 0%, 0%, 0.7);
+  border-radius: 20px;
+}
+
+.right-side {
+  padding: 2rem 5rem;
+  display: flex;
+  flex: 33.33%;
+  flex-direction: column;
+  padding-top: 2.5rem;
+}
+
+.total__salary__bg {
   display: flex;
   flex-direction: column;
 }
 
-.expense{
+.expense {
   display: flex;
   flex-direction: column;
 }
 
-#total-salary-display{
+.total-salary-display {
   text-align: center;
   font-size: 1.3rem;
 }
 
-#set-total-salary-button{
-  background-color: rgb(38, 0, 255);
+.set-total-salary-button {
+  background-color: hsl(249, 100%, 50%);
   border: none;
   border-radius: 20px;
-  color: #f2f2f2;
+  color: hsl(0, 0%, 95%);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.add-expense{
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(249, 100%, 50%);
+  border-radius: 3rem;
 }

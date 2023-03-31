@@ -1,120 +1,98 @@
-// array to store expenses
-let expenses = [];
+// Get DOM elements
+const totalSalaryInput = document.querySelector('.total-salary')
+const setTotalSalaryButton = document.querySelector('.set-total-salary-button')
+const totalSalaryDisplay = document.querySelector('.total-salary-display')
+const expenseNameInput = document.querySelector('.expense-name')
+const expenseAmountInput = document.querySelector('.expense-amount')
+const addExpenseButton = document.querySelector('.add-expense')
+const expenseList = document.querySelector('.expense-list')
+const totalExpensesDisplay = document.querySelector('.total-expenses')
+const remainingBalanceDisplay = document.querySelector('.remaining-balance')
 
-// variable to store total salary
-let totalSalary = 0;
+// Check if there is data in local storage
+let expenses = JSON.parse(localStorage.getItem('expenses')) || []
+let totalSalary = JSON.parse(localStorage.getItem('totalSalary')) || 0
 
-// function to add expense
-function addExpense() {
-    // get input values
-    let expenseName = document.getElementById("expense-name").value;
-    let expenseAmount = document.getElementById("expense-amount").value;
+// Display total salary and expenses on page load
+totalSalaryDisplay.textContent = `$${totalSalary}`
+displayExpenses()
 
-    // create expense object
-    let expense = {
-        name: expenseName,
-        amount: expenseAmount
-    };
+// Add event listeners
+setTotalSalaryButton.addEventListener('click', setTotalSalary)
+addExpenseButton.addEventListener('click', addExpense)
 
-
-    // add expense to array
-    expenses.push(expense);
-
-
-    // display expenses
-    displayExpenses();
-
-    // clear form
-    document.getElementById("expense-name").value = "";
-    document.getElementById("expense-amount").value = "";
-
-    // save expenses to local storage
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-}
-
-// function to delete expense
-function deleteExpense(index) {
-    // remove expense from array
-    expenses.splice(index, 1);
-
-    // display expenses
-    displayExpenses();
-
-    // save expenses to local storage
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-}
-
-// function to display expenses
-function displayExpenses() {
-    // get expense list element
-    let expenseList = document.getElementById("expense-list");
-
-    // clear expense list
-    expenseList.innerHTML = "";
-
-    // loop through expenses
-    let totalExpenses = 0;
-    for (let i = 0; i < expenses.length; i++) {
-        // create expense element
-        let expenseElement = document.createElement("li");
-        expenseElement.innerText = expenses[i].name + ": $" + expenses[i].amount;
-
-        // create delete button
-        let deleteButton = document.createElement("button");
-        deleteButton.innerText = "Delete";
-        deleteButton.onclick = function() { deleteExpense(i); };
-
-        // append expense element and delete button to expense list
-        expenseElement.appendChild(deleteButton);
-        expenseList.appendChild(expenseElement);
-
-        // add expense amount to total expenses
-        totalExpenses += parseInt(expenses[i].amount);
-    }
-
-    // display total expenses
-    document.getElementById("total-expenses").innerText = "$" + totalExpenses;
-
-    // calculate remaining balance
-    // let remainingBalance = totalSalary - totalExpenses;
-    let remainingBalance = 0;
-    if (!isNaN(totalSalary)) {
-        remainingBalance = totalSalary - totalExpenses;
-    }
-
-    // display remaining balance
-    document.getElementById("remaining-balance").innerText = "$" + remainingBalance;
-
-    // save total expenses and remaining balance to local storage
-    localStorage.setItem("totalExpenses", totalExpenses);
-    localStorage.setItem("remainingBalance", remainingBalance);
-}
-
-// function to set total salary
+// Set total salary
 function setTotalSalary() {
-    // get input value
-    let totalSalaryInput = document.getElementById("total-salary").value;
-
-    // set total salary variable
-    totalSalary = parseInt(totalSalaryInput);
-
-    // display total salary
-    document.getElementById("total-salary-display").innerText = "$" + totalSalary;
-
-    // save total salary to local storage
-    localStorage.setItem("totalSalary", totalSalary);
+  totalSalary = totalSalaryInput.value
+  totalSalaryDisplay.textContent = `$${totalSalary}`
+  localStorage.setItem('totalSalary', JSON.stringify(totalSalary))
+  updateRemainingBalance()
 }
 
-// add event listener to set total salary button
-document.getElementById("set-total-salary-button").addEventListener("click", setTotalSalary);
+// Add expense
+function addExpense(event) {
+  event.preventDefault()
 
-// retrieve data from local storage on page load
-if (localStorage.getItem("expenses")) {
-    expenses = JSON.parse(localStorage.getItem("expenses"));
-    displayExpenses();
+  // Get expense name and amount
+  const expenseName = expenseNameInput.value
+  const expenseAmount = expenseAmountInput.value
+
+  // Validate expense amount
+  if (expenseAmount === '' || isNaN(expenseAmount)) {
+    alert('Please enter a valid expense amount.')
+    return
+  }
+
+  // Create expense object and add to expenses array
+  const expense = { name: expenseName, amount: expenseAmount }
+  expenses.push(expense)
+  localStorage.setItem('expenses', JSON.stringify(expenses))
+
+  // Clear input fields
+  expenseNameInput.value = ''
+  expenseAmountInput.value = ''
+
+  // Display updated expenses and remaining balance
+  displayExpenses()
+  updateRemainingBalance()
 }
 
-if (localStorage.getItem("totalSalary")) {
-    totalSalary = parseInt(localStorage.getItem("totalSalary"));
-    document.getElementById("total-salary-display").innerText = "$" + totalSalary;
+// Display expenses
+function displayExpenses() {
+  // Clear expense list
+  expenseList.innerHTML = ''
+
+  // Calculate total expenses and display each expense
+  let totalExpenses = 0
+  expenses.forEach((expense, index) => {
+    const li = document.createElement('li')
+    li.innerHTML = `${expense.name}: $${expense.amount} <button class="delete-expense" data-delete-button=${index}>Delete</button>`
+    expenseList.appendChild(li)
+    totalExpenses += parseInt(expense.amount)
+    const expensesTitle = document.createElement('h3')
+    expenseList.appendChild(expensesTitle)
+    expensesTitle.innerText = 'History'
+  })
+
+  // Display total expenses
+  totalExpensesDisplay.textContent = `$${totalExpenses}`
+}
+
+// Update remaining balance
+function updateRemainingBalance() {
+  let remainingBalance =
+    totalSalary - parseInt(totalExpensesDisplay.textContent.slice(1))
+  remainingBalanceDisplay.textContent = `$${remainingBalance}`
+}
+
+// Delete expense
+expenseList.addEventListener('click', deleteExpense)
+function deleteExpense(event) {
+  if (event.target.classList.contains('delete-expense')) {
+    const expenseIndex = event.target.dataset.deleteButton
+    expenses.splice(expenseIndex, 1)
+    localStorage.setItem('expenses', JSON.stringify(expenses))
+    displayExpenses()
+    updateRemainingBalance()
+  }
 }

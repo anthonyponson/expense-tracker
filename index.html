@@ -17,30 +17,42 @@
       <div class="container">
         <h1>Income Tracker</h1>
 
-        <div class="total__salary__bg">
-          <label for="total-salary">Total Salary:</label>
-          <input type="number" id="total-salary" name="total-salary" />
-          <button type="button" id="set-total-salary-button">Set</button>
-          <p id="total-salary-display"></p>
-        </div>
+        <div class="row">
+          <div class="left-side">
+            <div class="total__salary__bg">
+              <label for="total-salary">Total Salary:</label>
+              <input type="number" class="total-salary" name="total-salary" />
+              <button type="button" class="set-total-salary-button">Set</button>
+              <p class="total-salary-display"></p>
+            </div>
 
-        <form>
-          <div class="expense">
-            <label for="expense-name">Expense Name:</label>
-            <input type="text" id="expense-name" name="expense-name" />
-            <label for="expense-amount">Expense Amount:</label>
-            <input type="number" id="expense-amount" name="expense-amount" />
-            <button type="button" onclick="addExpense()">Add Expense</button>
+            <form>
+              <div class="expense">
+                <label for="expense-name">Expense Name</label>
+                <input type="text" class="expense-name" name="expense-name" />
+                <label for="expense-amount">Expense Amount</label>
+                <input
+                  type="text"
+                  class="expense-amount"
+                  name="expense-amount"
+                />
+                <button class="add-expense" data-add-expense-button>
+                  Add Expense
+                </button>
+              </div>
+            </form>
           </div>
-          
-        </form>
-        <h2>Expenses:</h2>
-        <ul id="expense-list"></ul>
-        <p>Total Expenses: <span id="total-expenses">$0</span></p>
-        <p>Remaining Balance: <span id="remaining-balance">$0</span></p>
+
+          <div class="right-side">
+            <h2></h2>
+            <ul class="expense-list"></ul>
+            <p><span class="total-expenses"></span></p>
+            <p><span class="remaining-balance"></span></p>
+          </div>
+        </div>
       </div>
     </main>
 
-    <script defer src="main.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&display=swap');
+
 *,
 ::before,
 ::after {
@@ -5,10 +7,8 @@
   padding: 0;
   margin: 0;
 }
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&display=swap');
-
 body {
-  height: 100vh;
+
   font-family: 'Rubik', sans-serif;
 }
 
@@ -49,30 +49,34 @@ form {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  background-color: hsl(0, 0%, 95%);
   border-radius: 20px;
 }
 
 .row {
   display: flex;
-  gap: 10rem;
+  gap: 3rem;
   justify-content: center;
 }
 
 .left-side {
   padding: 2rem 5rem;
+  display: flex;
+  flex-direction: column;
   flex: 1;
   padding-top: 2.5rem;
-  box-shadow: 2px 8px 19px hsla(0, 0%, 0%, 0.7);
   border-radius: 20px;
+  background: rgba(0, 174, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .right-side {
   padding: 2rem 2rem;
   display: flex;
-  flex: 2;
+  flex: 1;
   flex-direction: column;
   padding-top: 2.5rem;
+
 }
 
 .total__salary__bg {
@@ -112,7 +116,7 @@ form {
   font-size: 1rem;
   padding: 0.5rem 1rem;
   border: none;
-  background-color: hsl(249, 100%, 50%);
+  /* background-color: hsl(0, 0%, 100%); */
   color: hsl(0, 0%, 100%);
   border-radius: 20px;
 }

@@ -29,12 +29,10 @@ expenseForm.addEventListener('submit', (event) => {
   event.preventDefault()
   const expenseName = expenseNameInput.value
   const expenseAmount = parseFloat(expenseAmountInput.value)
-
   if (!expenseName || !expenseAmount) {
     alert('Please enter both an expense name and an amount.')
     return
   }
-
   expenses.push({ name: expenseName, amount: expenseAmount })
   localStorage.setItem('expenses', JSON.stringify(expenses))
   expenseNameInput.value = ''
@@ -49,7 +47,7 @@ function renderExpenses() {
   const expenseTtilte = document.createElement('h3')
   expenseTtilte.innerText = 'History'
   expenseList.appendChild(expenseTtilte)
-  
+
   for (let i = 0; i < expenses.length; i++) {
     const expense = expenses[i]
     const expenseItem = document.createElement('li')
@@ -68,13 +66,12 @@ function renderExpenses() {
   }
 }
 
-
 // Update balance
 function updateBalance() {
   const totalExpenses = expenses.reduce(
     (total, expense) => total + expense.amount,
     0
-  ) 
+  )
   const remainingBalance = totalSalary - totalExpenses
   totalExpensesDisplay.textContent = `Total Expenses: $${totalExpenses}`
   remainingBalanceDisplay.textContent = `Remaining Balance: $${remainingBalance}`

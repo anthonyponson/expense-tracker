@@ -44,26 +44,26 @@ expenseForm.addEventListener('submit', (event) => {
 // Render expenses
 function renderExpenses() {
   expenseList.innerHTML = ''
-  const expenseTtilte = document.createElement('h3')
-  expenseTtilte.innerText = 'History'
-  expenseList.appendChild(expenseTtilte)
+const expenseTtilte = document.createElement('h3')
+expenseTtilte.innerText = 'History'
+expenseList.appendChild(expenseTtilte)
 
-  for (let i = 0; i < expenses.length; i++) {
-    const expense = expenses[i]
-    const expenseItem = document.createElement('li')
-    expenseItem.innerText = `${expense.name}: $${expense.amount}`
-    const deleteButton = document.createElement('button')
-    deleteButton.classList.add('expense-delete')
-    deleteButton.innerText = '❌'
-    deleteButton.addEventListener('click', () => {
-      expenses.splice(i, 1)
-      localStorage.setItem('expenses', JSON.stringify(expenses))
-      renderExpenses()
-      updateBalance()
-    })
-    expenseItem.appendChild(deleteButton)
-    expenseList.appendChild(expenseItem)
-  }
+expenses.forEach(expense => {
+  const expenseItem = document.createElement('li')
+  expenseItem.innerText = `${expense.name}: $${expense.amount}`
+  const deleteButton = document.createElement('button')
+  deleteButton.classList.add('expense-delete')
+  deleteButton.innerText = '❌'
+  deleteButton.addEventListener('click', () => {
+    expenses = expenses.filter(item => item !== expense)
+    localStorage.setItem('expenses', JSON.stringify(expenses))
+    renderExpenses()
+    updateBalance()
+  })
+  expenseItem.appendChild(deleteButton)
+  expenseList.appendChild(expenseItem)
+ })
+
 }
 
 // Update balance
